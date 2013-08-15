@@ -1,0 +1,8 @@
+.idea/*
+vendor/*
+!vendor/others
+
+.DS_Store
+!.gitignore
+!.htaccess
+
