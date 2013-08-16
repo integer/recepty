@@ -12,8 +12,8 @@ $filterPath = filterPathInfo($_SERVER['PATH_INFO']);
 $firstPage = false;
 if (empty($filterPath)) {
 	$firstPage = true;
-	printHead('Úvodní strana');
-	echo "<h1>Úvodní strana</h1>";
+	printHead('Recepty na pivní bašty');
+	echo "<h1>Recepty na pivní bašty</h1>";
 }
 
 $fullPath = sprintf('./%s/%s', RECIPT_DIR, $filterPath);
@@ -21,8 +21,10 @@ $fullPath = sprintf('./%s/%s', RECIPT_DIR, $filterPath);
 if (is_dir($fullPath)) {
 
 	printHead($filterPath);
+	$pathParts = explode('/', $fullPath);
+	printf('<h1>%s</h1>', ucfirst(array_pop($pathParts)));
 	if (!$firstPage) {
-		// vykresli tlacitko zpet - o uroven výš
+		printf('<a href=".."><span style="font-size: xx-large;">&lArr;</span> Zpět</a>');
 	}
 
 	$content = scandir($fullPath);
@@ -37,10 +39,8 @@ if (is_dir($fullPath)) {
 } elseif (is_file($fullPath)) {
 	printHead($filterPath);
 
-	echo '<pre>'.file_get_contents($fullPath).'</pre>';
-	if (!$firstPage) {
-		// vykresli tlacitko zpet - o uroven výš
-	}
+	echo '<div>'.nl2br(file_get_contents($fullPath)).'</div>';
+	printf('<br><a href=".."><span style="font-size: xx-large;">&lArr;</span> Zpět</a>');
 
 } else {
 	header('Location: /index.php/');
@@ -70,8 +70,8 @@ EOF;
 
 function printTail()
 {
+	//&copy; 2013 integer, autoři receptů uvedeni u receptů
 	echo <<<EOF
-	&copy; 2013 integer, autoři receptů uvedeni u receptů
 	</body>
 </html>
 EOF;
